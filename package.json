@@ -1,7 +1,7 @@
 {
   "name": "fastbuild",
-  "version": "0.0.1",
-  "description": "Fastbuild is a pre-optimized docker build pipeline for typescript based applications",
+  "version": "0.1.0",
+  "description": "Fastbuild is a pre-optimized dockerfile for typescript applications",
   "main": "dist/index.js",
   "repository": "git@github.com:hequ/fastbuild.git",
   "author": "Henri Kinnunen <henri@punchcard.fi>",

@@ -4,7 +4,7 @@ Dockerfile + makefile for making a typescript project easier.
 
 # Motivation
 
-Building a Dockerfile is not rocket science, but doing it from the scratch (and getting it right) for every project is a tedious task. Motivation of this project is to produce a Dockerfile + makefile which you can use to get things right right from the beginning. Docker is a great tool, but too many times projects end up into a state, where the local development environment is set up differently compared to the one running in production. This usually doesn't happen on purpose, but because you need to do one or more tweaks to your production here and there. And then those tweaks are not made into your local setup. One of the motivations to build this project is to make so good initial setup that you want to use it also while developing your app. This way your development environment will run the same way than your production does, and it means that you will encounter less "happens only in production" type of bugs.
+Building a Dockerfile is not rocket science, but getting it right requires you to know a thing or two about docker. Motivation of this project is to produce a Dockerfile + makefile which you can use to get things right from the beginning. Docker is a great tool, but too many times projects end up into a state, where the local development environment is set up differently compared to the one running in production. This usually doesn't happen on purpose, but because it's just easier to modify the production enviroment only, than it is to create a setup where development and production environments are as similar as possible. One of the motivations to build this project is to make so good initial setup (docker environment) that you want to use it also while developing your app. This way your development environment will run the same way as your production does, and it means that you will encounter less "happens only in production" type of bugs.
 
 # What does it do?
 
@@ -29,6 +29,6 @@ After installing docker, you must:
 
 1. copy your application source files into src/ and test files to test/
 2. make sure you have listed all the required dependencies in the package.json
-3. make index.ts your application entrypoint
+3. make src/index.ts your application entrypoint
 
 Running `make` will produce a working container, and you can run it locally by running `make run`.

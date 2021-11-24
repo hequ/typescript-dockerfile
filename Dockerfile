@@ -1,27 +1,23 @@
-FROM node:16.8.0-alpine AS base
+FROM node:16.8-alpine AS base
 WORKDIR /app
 COPY package.json package.json
 COPY yarn.lock yarn.lock
+RUN yarn
 
-FROM base AS copy-sources
+FROM base AS build
 WORKDIR /app
 COPY tsconfig.json tsconfig.json
 COPY src/ src/
+RUN yarn tsc
 
-FROM copy-sources as test
+FROM node:16.8-alpine AS final
 WORKDIR /app
-RUN yarn
-
-COPY test/ ./test
-RUN npx tsc
-
-CMD ["npx", "jest", "dist"]
-
-FROM node:16.8.0-alpine AS final
-WORKDIR /app
+COPY --from=build /app ./
 ENV NODE_ENV=production
-
-RUN yarn --production=true
-COPY --from=copy-sources /app/package.json /app/yarn.lock ./
-
 CMD [ "yarn", "docker:start" ]
+
+FROM build as test
+WORKDIR /app
+COPY test/ ./test
+RUN yarn tsc
+CMD ["npx", "jest", "dist"]
