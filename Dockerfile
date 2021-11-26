@@ -1,4 +1,5 @@
 FROM node:17-alpine AS base
+RUN apk add --update dumb-init
 USER node
 WORKDIR /app
 COPY --chown=node:node package.json package.json
@@ -24,14 +25,15 @@ RUN yarn tsc
 
 # Combine production only node_modules with compiled javascript files.
 FROM node:17-alpine AS final
+RUN apk add --update dumb-init
 USER node
 WORKDIR /app
 COPY --chown=node:node --from=deps /app/node_modules ./app/node_modules
 COPY --chown=node:node --from=build /app/dist/src ./dist/
 COPY --chown=node:node --from=build /app/package.json ./
-CMD [ "yarn", "docker:start" ]
+CMD [ "dumb-init", "node", "/app/dist/index.js" ]
 
 FROM build as test
 USER node
 WORKDIR /app
-CMD ["npx", "jest", "dist"]
+CMD ["dumb-init", "node", "node_modules/jest/bin/jest", "dist/test"]
