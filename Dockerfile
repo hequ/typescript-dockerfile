@@ -11,7 +11,7 @@ USER node
 WORKDIR /app
 COPY --chown=node:node package.json package.json
 COPY --chown=node:node yarn.lock yarn.lock
-RUN yarn install --production
+RUN yarn install --production --frozen-lockfile
 
 # Compile typescript sources
 FROM base AS build
