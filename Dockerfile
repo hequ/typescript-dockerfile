@@ -1,11 +1,11 @@
-FROM node:16.8-alpine AS base
+FROM node:17-alpine AS base
 WORKDIR /app
 COPY package.json package.json
 COPY yarn.lock yarn.lock
 RUN yarn
 
 # Install production dependencies only
-FROM node:16.8-alpine AS deps
+FROM node:17-alpine AS deps
 WORKDIR /app
 COPY package.json package.json
 COPY yarn.lock yarn.lock
@@ -20,7 +20,7 @@ COPY test/ test/
 RUN yarn tsc
 
 # Combine production only node_modules with compiled javascript files.
-FROM node:16.8-alpine AS final
+FROM node:17-alpine AS final
 WORKDIR /app
 COPY --from=deps /app/node_modules ./app/node_modules
 COPY --from=build /app/dist/src ./dist/
